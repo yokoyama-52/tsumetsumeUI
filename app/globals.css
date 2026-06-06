@@ -1,0 +1,191 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f7fb;
+  color: #222;
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+}
+
+/* -------Header------ */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 40px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+/* ------Hero------ */
+
+.hero {
+  margin-bottom: 32px;
+}
+
+.hero h2 {
+  margin-bottom: 8px;
+}
+
+/* ------Card------ */
+
+.card {
+  background: white;
+
+  padding: 24px;
+
+  border-radius: 16px;
+
+  /*box-shadow:
+    0 4px 20px rgba(0,0,0,0.08);*/
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  margin-bottom: 16px;
+
+}
+
+/* ------Input------ */
+
+.imput {
+  padding: 12px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+}
+
+/* ------Buttons------ */
+
+.button {
+  border: none;
+
+  font-size: 24px;
+
+  background: #C1C1C1;
+
+  padding: 7px 21px;
+
+  border-radius: 10px;
+}
+
+.done {
+  background: #AD3838;
+
+  color: #FFFFFF;
+}
+
+
+.x {
+  font-size: 12px;
+  padding: 7px 10px;
+}
+
+.primaryButton:hover { /*hoverとは:マウスカーソルを合わせた時のアニメーションのことである*/
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  border: none;
+
+  background: royalblue;
+
+  color:white;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.doneButton {/*お会計ボタン*/
+  border: none;
+
+  font-size: 24px;
+
+  background: #AD3838;
+
+  color: #FFFFFF;
+
+  padding: 7px 21px;
+
+  border-radius: 10px;/*角がまるくなる*/
+
+  cursor: pointer;/*矢印が手の形になる*/
+}
+
+.nomalButton {/*それ以外のボタン*/
+  border: none;
+
+  font-size: 24px;
+
+  background: #C1C1C1;
+
+  padding: 7px 21px;
+
+  border-radius: 10px;
+}
+
+/* ------Grid------ */
+
+.grid {
+  display: grid;
+
+  grid-template-columns: 
+    repeat(auto-fit,minmax(200px,1fr));
+
+    gap: 16px;
+}
+
+.smallCard {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ------overlay------ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.4);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.model {
+  width: 400px;
+  padding: 24px;
+
+  background: white;
+  border-radius: 16px;
+}
