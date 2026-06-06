@@ -22,7 +22,7 @@ export default function Home(){
 
             <header className="header">
                 <h1>UI Design Practice</h1>
-                
+                <h1>Hello</h1>
                 <div className="buttonGroup">
                     <Button onClick={() => setIsOpen(true)} variant="choiceBox">
                         箱を選ぶ
