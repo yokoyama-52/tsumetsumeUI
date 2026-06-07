@@ -14,7 +14,8 @@ export default function Home(){
         console.log("押された！");
     };
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [OlisOpen, setOlIsOpen] = useState(false);
+    const [SbisOpen, setSbIsOpen] = useState(false);
 
     
     return(
@@ -22,9 +23,8 @@ export default function Home(){
 
             <header className="header">
                 <h1>UI Design Practice</h1>
-                <h1>Hello</h1>
                 <div className="buttonGroup">
-                    <Button onClick={() => setIsOpen(true)} variant="choiceBox">
+                    <Button onClick={() => setOlIsOpen(true)} variant="choiceBox">
                         箱を選ぶ
                     </Button>
                     
@@ -35,35 +35,49 @@ export default function Home(){
 
             </header>
 
+            <div className="layout">
+                <aside className={`sidebar ${SbisOpen ? "open" : "close"}`}>
+                    <h2>Menu</h2>
+                    <ul>
+                        <li>Home</li>
+                        <li>Projects</li>
+                        <li>Settings</li>
+                    </ul>
+                </aside>
 
-            <section className="hero">
-                <h2>Next.js UI練習</h2>
-                <p>
-                    コンポーネント・余白・ボタンデザインを学ぶサンプル
-                </p>
-            </section>
 
-            <div 
-                className="card"
-                style={{
-                    width: `${size.width}px`,
-                    height: `${size.height}px`,
-                }}
-            >
-                カード
-            </div>
-            {isOpen && (
-                <div className="overlay">
-                    <div className="model">
-                        <h2>設定</h2>
-                        <p>ここに内容を書く</p>
-
-                        <Button onClick={ () => setIsOpen(false)} variant="x">
-                            X
-                        </Button>
+                <section className="main">
+                    <Button onClick={() => setSbIsOpen(!SbisOpen)} variant="≡">
+                        ≡
+                    </Button>
+                    <h2>Next.js UI練習</h2>
+                    <p>
+                        コンポーネント・余白・ボタンデザインを学ぶサンプル
+                    </p>
+                    
+                    <div 
+                        className="card"
+                        style={{
+                            width: `${size.width}px`,
+                            height: `${size.height}px`,
+                        }}
+                    >
+                        カード
                     </div>
-                </div>
-            )}
+                </section>
+                {OlisOpen && (
+                    <div className="overlay">
+                        <div className="model">
+                            <h2>設定</h2>
+                            <p>ここに内容を書く</p>
+
+                            <Button onClick={ () => setOlIsOpen(false)} variant="x">
+                                X
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </main>
     );
     

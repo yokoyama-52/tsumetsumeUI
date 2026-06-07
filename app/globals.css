@@ -16,10 +16,16 @@ body {
   padding: 40px;
 }
 
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
 /* -------Header------ */
 
 .header {
   display: flex;
+  height: 15px;
   justify-content: space-between;
   align-items: center;
 
@@ -99,6 +105,14 @@ body {
 .x {
   font-size: 12px;
   padding: 7px 10px;
+}
+
+.≡ {
+  font-size: 24px;
+  padding: 7px 10px;
+
+  background: #C1C1C1;
+  border-radius: 1px;
 }
 
 .primaryButton:hover { /*hoverとは:マウスカーソルを合わせた時のアニメーションのことである*/
@@ -188,4 +202,29 @@ body {
 
   background: white;
   border-radius: 16px;
+}
+
+/* -------sidebar------ */
+
+.sidebar {
+  width: 0;
+  background: #C1C1C1;
+  overflow: hidden;
+  padding: 0px;
+  transition: width 0.3s;
+}
+
+.sidebar.open {
+  width: 250px;
+}
+
+.sidebar.close {
+  width: 0px;
+}
+
+/* ------main------ */
+
+.main {
+  flex: 1;
+  padding: 0px;
 }
