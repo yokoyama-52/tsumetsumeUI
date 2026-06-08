@@ -25,11 +25,11 @@ body {
 
 .header {
   display: flex;
-  height: 15px;
+  height: 10px;
   justify-content: space-between;
   align-items: center;
 
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .buttonGroup {
@@ -225,6 +225,18 @@ body {
 /* ------main------ */
 
 .main {
+  flex: 1;
+  padding: 0px;
+}
+
+
+/* ------item------ */
+
+.item {
+  width: 200px;
+  height: 100px;
+  background: white;
+
   flex: 1;
   padding: 0px;
 }
