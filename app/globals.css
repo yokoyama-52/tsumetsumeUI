@@ -26,6 +26,8 @@ button { font: inherit; }
 .done, .confirmButton { min-height: 40px; padding: 0 18px; color: #fff; font-size: 15px; font-weight: 700; }
 .done { background: #ad3838; }
 .confirmButton { border: 0; border-radius: 12px; color: #111; background: #c1c1c1; cursor: pointer; }
+.tutorialButton { min-height: 40px; padding: 0 14px; border: 1px solid #595959; border-radius: 12px; color: #111; background: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }
+.tutorialButton:hover, .tutorialButton:focus-visible { background: #ebebeb; outline: 3px solid #dedede; outline-offset: 2px; }
 .confirmButton:hover, .confirmButton:focus-visible { background: #a8a8a8; outline: 3px solid #dedede; outline-offset: 2px; }
 
 .layout {
@@ -102,6 +104,19 @@ button { font: inherit; }
 .dragPreviewImage { width: min(64px, 70%); height: min(64px, 58%); object-fit: contain; }
 .dragPreview span { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
+.tutorialOverlay { position: fixed; inset: 0; z-index: 50; background: rgba(17, 17, 17, .58); pointer-events: none; }
+.tutorialSpotlight { position: relative; z-index: 55 !important; box-shadow: 0 0 0 5px #fff, 0 0 0 10px rgba(255, 255, 255, .35) !important; }
+.tutorialDialog { position: fixed; right: 24px; bottom: 24px; z-index: 60; width: min(390px, calc(100vw - 48px)); padding: 22px; border: 1px solid #111; border-radius: 16px; background: #fff; box-shadow: 0 16px 48px rgba(0, 0, 0, .3); }
+.tutorialDialog h2 { margin-top: 6px; font-size: 21px; }
+.tutorialDialog > p:not(.eyebrow):not(.tutorialProgress) { margin-top: 10px; color: #444; font-size: 14px; line-height: 1.6; }
+.tutorialProgress { color: #8e302b; font-size: 12px; font-weight: 700; }
+.tutorialButtons { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+.tutorialPrimaryButton, .tutorialSecondaryButton { min-height: 38px; padding: 0 14px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.tutorialPrimaryButton { border: 1px solid #111; color: #fff; background: #111; }
+.tutorialSecondaryButton { border: 1px solid #595959; color: #111; background: #fff; }
+.tutorialPrimaryButton:hover, .tutorialPrimaryButton:focus-visible { background: #333; outline: 3px solid #dedede; outline-offset: 2px; }
+.tutorialSecondaryButton:hover, .tutorialSecondaryButton:focus-visible { background: #ebebeb; outline: 3px solid #dedede; outline-offset: 2px; }
+
 @media (max-width: 1000px) {
   .container { padding: 12px 16px; }
   .layout { grid-template-columns: 200px minmax(0, 1fr); gap: 8px; }
@@ -109,4 +124,8 @@ button { font: inherit; }
   .menuList { grid-template-columns: 1fr; }
   .header { gap: 16px; }
   .orderSummary { gap: 12px; }
+}
+
+@media (max-width: 760px) {
+  .tutorialDialog { right: 16px; bottom: 16px; width: calc(100vw - 32px); }
 }

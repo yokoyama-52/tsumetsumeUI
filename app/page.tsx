@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
     DndContext,
@@ -16,6 +16,7 @@ import { initBoxes } from "@/data/initBoxes";
 import Button from "@/components/Button";
 import Item from "../components/Item";
 import MenuItem from "@/components/MenuItem";
+import Tutorial, { type TutorialStep } from "@/components/Tutorial";
 
 type PlacedItem = SnackItem & {
     imageId: string;
@@ -39,6 +40,7 @@ const PIXELS_PER_CM = 12;
 const GRID_CM = 1;
 const BOX_PADDING = 0;
 const filterLabels = ["アレルギー", "新商品", "季節のおすすめ", "あまい", "しょっぱい"];
+const TUTORIAL_STORAGE_KEY = "tumetume-tutorial-complete";
 
 const clamp = (value: number, min: number, max: number) => {
     return Math.min(Math.max(value, min),max);
@@ -95,6 +97,8 @@ export default function Home(){
     const [placementMessage, setPlacementMessage] = useState("");
     const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
     const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+    const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+    const [tutorialStep, setTutorialStep] = useState<TutorialStep>("welcome");
     const currentBox = initBoxes[currentBoxIndex];
     const activeItem = items.find((item) => item.id === activeItemId);
     const selectedItems = items.filter((item) => selectedItemIds.includes(item.id));
@@ -106,6 +110,25 @@ export default function Home(){
     const candidateBox = candidateBoxIndex === null ? null : initBoxes[candidateBoxIndex];
     const shrinkCandidateBox = shrinkCandidateIndex === null ? null : initBoxes[shrinkCandidateIndex];
     const previewBox = isOutsideBox ? candidateBox : shrinkCandidateBox;
+
+    useEffect(() => {
+        const frameId = requestAnimationFrame(() => {
+            setIsTutorialOpen(localStorage.getItem(TUTORIAL_STORAGE_KEY) !== "true");
+        });
+
+        return () => cancelAnimationFrame(frameId);
+    }, []);
+
+    const closeTutorial = (markComplete = true) => {
+        if (markComplete) localStorage.setItem(TUTORIAL_STORAGE_KEY, "true");
+        setIsTutorialOpen(false);
+        setTutorialStep("welcome");
+    };
+
+    const openTutorial = () => {
+        setTutorialStep("welcome");
+        setIsTutorialOpen(true);
+    };
 
     const snapToGrid: Modifier = ({ transform }) => {
         const scale = dragScaleRef.current;
@@ -185,6 +208,7 @@ export default function Home(){
                 ...position,
             },
         ]);
+        if (tutorialStep === "choose") setTutorialStep("move");
     };
 
     const getDropPosition = (
@@ -356,6 +380,7 @@ export default function Home(){
     // 他のお菓子と重なる位置には置かない。
     const handleDragEnd = ({ active, delta }:DragEndEvent) => {
         let position = getDropPosition(String(active.id), delta);
+        let expandedBox = false;
 
         if (position?.isOutside) {
             const candidate = findBoxCandidate(String(active.id), delta);
@@ -363,6 +388,7 @@ export default function Home(){
             if (candidate) {
                 changeToBox(candidate.boxIndex);
                 position = candidate.position;
+                expandedBox = true;
             } else {
                 position = null;
             }
@@ -374,6 +400,8 @@ export default function Home(){
                     item.id === active.id ? { ...item, xCm: position.xCm, yCm: position.yCm } : item,
                 ),
             );
+            if (tutorialStep === "move") setTutorialStep("expand");
+            if (tutorialStep === "expand" && expandedBox) setTutorialStep("finish");
         } else {
             setPlacementMessage("");
         }
@@ -395,7 +423,7 @@ export default function Home(){
     };
     return(
         <main
-            className="container"
+            className={`container ${isTutorialOpen ? "isTutorialOpen" : ""}`}
             onPointerDownCapture={(event) => {
                 if (!(event.target instanceof Element) || !event.target.closest(".item, [data-selection-control]")) {
                     setSelectedItemIds([]);
@@ -425,6 +453,7 @@ export default function Home(){
                 </div>
 
                 <div className="headerActions">
+                    <button className="tutorialButton" type="button" onClick={openTutorial}>使い方</button>
                     <button className="confirmButton" type="button">確認</button>
                     <Button variant="done">お会計へ</Button>
                 </div>
@@ -452,6 +481,7 @@ export default function Home(){
                             <li key={item.id}>
                                 <MenuItem
                                     variant="menuItem"
+                                    className={isTutorialOpen && tutorialStep === "choose" && item.id === initItems[0].id ? "tutorialSpotlight" : ""}
                                     onClick={() => addItem(item.id)}
                                 >
                                 <div className="menuItemContent">
@@ -529,7 +559,7 @@ export default function Home(){
                                     </div>
                                 )}
                                 <div
-                                    className="boxArea"
+                                    className={`boxArea ${isTutorialOpen && (tutorialStep === "move" || tutorialStep === "expand") ? "tutorialSpotlight" : ""}`}
                                     data-drag-state={activeItemId ? (isDropValid ? "valid" : "invalid") : undefined}
                                     style={{
                                         width: `${currentBox.widthCm * PIXELS_PER_CM}px`,
@@ -589,6 +619,18 @@ export default function Home(){
 
 
             </div>
+            {isTutorialOpen && (
+                <>
+                    <div className="tutorialOverlay" aria-hidden="true" />
+                    <Tutorial
+                        step={tutorialStep}
+                        onStart={() => setTutorialStep("choose")}
+                        onSkip={() => closeTutorial()}
+                        onComplete={() => closeTutorial()}
+                        onNext={() => setTutorialStep("finish")}
+                    />
+                </>
+            )}
         </main>
     );
 }
